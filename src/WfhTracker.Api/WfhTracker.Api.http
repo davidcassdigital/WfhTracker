@@ -1,0 +1,6 @@
+@WfhTracker.Api_HostAddress = http://localhost:5243
+
+GET {{WfhTracker.Api_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###

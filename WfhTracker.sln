@@ -1,0 +1,46 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.14.37314.3
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{02EA681E-C7D8-13C7-8484-4AC65E1B71E8}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "tests", "tests", "{A17EE510-459F-4FE7-919B-06CE7C7C84F0}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WfhTracker.Api", "src\WfhTracker.Api\WfhTracker.Api.csproj", "{3A143817-34D8-43E6-9385-CAD0CAAC7025}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WfhTracker.Client", "src\WfhTracker.Client\WfhTracker.Client.csproj", "{ADDB4F21-21CC-43E7-9BCE-CB74007B4487}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WfhTracker.Shared", "src\WfhTracker.Shared\WfhTracker.Shared.csproj", "{C7BC7638-A666-4D7F-96B1-0B2AE2FAFC74}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{3A143817-34D8-43E6-9385-CAD0CAAC7025}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3A143817-34D8-43E6-9385-CAD0CAAC7025}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3A143817-34D8-43E6-9385-CAD0CAAC7025}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3A143817-34D8-43E6-9385-CAD0CAAC7025}.Release|Any CPU.Build.0 = Release|Any CPU
+		{ADDB4F21-21CC-43E7-9BCE-CB74007B4487}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{ADDB4F21-21CC-43E7-9BCE-CB74007B4487}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{ADDB4F21-21CC-43E7-9BCE-CB74007B4487}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{ADDB4F21-21CC-43E7-9BCE-CB74007B4487}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C7BC7638-A666-4D7F-96B1-0B2AE2FAFC74}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C7BC7638-A666-4D7F-96B1-0B2AE2FAFC74}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C7BC7638-A666-4D7F-96B1-0B2AE2FAFC74}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C7BC7638-A666-4D7F-96B1-0B2AE2FAFC74}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{3A143817-34D8-43E6-9385-CAD0CAAC7025} = {02EA681E-C7D8-13C7-8484-4AC65E1B71E8}
+		{ADDB4F21-21CC-43E7-9BCE-CB74007B4487} = {02EA681E-C7D8-13C7-8484-4AC65E1B71E8}
+		{C7BC7638-A666-4D7F-96B1-0B2AE2FAFC74} = {02EA681E-C7D8-13C7-8484-4AC65E1B71E8}
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {7ADD8A92-31C2-4312-A7AB-A67C7E05482A}
+	EndGlobalSection
+EndGlobal
