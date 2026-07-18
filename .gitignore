@@ -11,6 +11,9 @@
 *.sln.docstates
 *.env
 
+# Application settings for specific environments (keep appsettings.json only)
+appsettings.*.json
+
 # User-specific files (MonoDevelop/Xamarin Studio)
 *.userprefs
 
@@ -427,3 +430,6 @@ FodyWeavers.xsd
 *.msix
 *.msm
 *.msp
+
+# Application settings for specific environments (keep appsettings.json only)
+appsettings.*.json
