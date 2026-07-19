@@ -2,7 +2,7 @@
 @using WfhTracker.Client.Services
 @using WfhTracker.Shared.Models
 @inject HealthService healthService
-@inject EntryService workEntriesService
+@inject EntryService entryService
 
 <PageTitle>Counter</PageTitle>
 
@@ -28,7 +28,7 @@ else
             </tr>
         </thead>
         <tbody>
-            @foreach (var entry in workFromHomeEntries)
+            @foreach (var entry in entries)
             {
                 <tr>
                     <td>@entry.Date.ToShortDateString()</td>
@@ -47,7 +47,7 @@ else
 @code {
     private int currentCount = 0;
     private string? healthStatus;
-    private List<Entry> workFromHomeEntries = [];
+    private List<Entry> entries = [];
     private bool isLoading = true;
 
     protected override async Task OnInitializedAsync()
@@ -55,7 +55,7 @@ else
         try
         {
             healthStatus = await healthService.GetStatusAsync();
-            workFromHomeEntries = await workEntriesService.GetWorkFromHomeEntriesAsync();
+            entries = await entryService.GetEntriesAsync();
         }
         catch (Exception ex)
         {

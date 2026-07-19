@@ -1,5 +1,7 @@
 using WfhTracker.Api.Extensions;
+using WfhTracker.Api.Models;
 using WfhTracker.Api.Repositories;
+using WfhTracker.Api.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -10,6 +12,7 @@ builder.Services.AddSwaggerGen();
 
 var corsPolicy = builder.Configuration.GetSection("CorsPolicy:WithOrigins").Get<string[]>();
 
+// Could move these to an extension class
 builder.Services.AddCors(options =>
 {
     options.AddPolicy("BlazorClient", policy =>
@@ -18,7 +21,11 @@ builder.Services.AddCors(options =>
     });
 });
 
-builder.Services.AddSingleton<IEntryRepository, InMemoryEntryRepository>();
+builder.Services.AddSingleton<IEntryRepository, BlobEntryRepository>();
+builder.Services.AddSingleton<IBlobStorageService, BlobStorageService>();
+
+builder.Services.Configure<StorageOptions>(
+    builder.Configuration.GetSection("Storage"));
 
 var app = builder.Build();
 
@@ -30,7 +37,6 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseHttpsRedirection();
-
 app.UseCors("BlazorClient");
 
 app.MapEndpoints();

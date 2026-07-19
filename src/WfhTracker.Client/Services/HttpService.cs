@@ -6,10 +6,15 @@ namespace WfhTracker.Client.Services
     public interface IHttpService
     {
         Task<T?> GetAsync<T>(string uri, CancellationToken cancellationToken = default);
+
         Task<TResponse?> PostAsync<TRequest, TResponse>(string uri, TRequest content, CancellationToken cancellationToken = default);
+
         Task<T?> PostAsync<T>(string uri, T content, CancellationToken cancellationToken = default);
+
         Task<T?> PutAsync<TRequest, T>(string uri, TRequest content, CancellationToken cancellationToken = default);
+
         Task<bool> DeleteAsync(string uri, CancellationToken cancellationToken = default);
+
         Task<HttpResponseMessage> SendAsync(HttpRequestMessage request, CancellationToken cancellationToken = default);
     }
 
