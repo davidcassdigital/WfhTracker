@@ -1,4 +1,4 @@
-using WfhTracker.Shared.Models;
+using WfhTracker.Api.Repositories;
 
 namespace WfhTracker.Api.Extensions
 {
@@ -7,32 +7,19 @@ namespace WfhTracker.Api.Extensions
         public static WebApplication MapEndpoints(this WebApplication app)
         {
             MapHealthEndpoints(app);
-            MapWorkFromHomeEntriesEndpoints(app);
+            MapEntriesEndpoints(app);
 
             return app;
         }
 
-        private static WebApplication MapWorkFromHomeEntriesEndpoints(WebApplication app)
+        private static WebApplication MapEntriesEndpoints(WebApplication app)
         {
-            app.MapGet("/api/workfromhomeentries", () =>
-            {
-                return Results.Ok(
-                new List<WorkFromHomeEntry>
+            app.MapGet("/api/entries",
+                async (IEntryRepository repository) =>
                 {
-                    new() {
-                        Id = Guid.NewGuid(),
-                        Date = DateOnly.FromDateTime(DateTime.UtcNow),
-                        HoursWorked = 8,
-                        Notes = "Worked on project X"
-                    },
-                    new() {
-                        Id = Guid.NewGuid(),
-                        Date = DateOnly.FromDateTime(DateTime.UtcNow.AddDays(-1)),
-                        HoursWorked = 6,
-                        Notes = "Worked on project Y"
-                    }
-                });
-            });
+                    return Results.Ok(await repository.GetAllAsync());
+                }
+            );
 
             return app;
         }

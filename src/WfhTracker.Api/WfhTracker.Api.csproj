@@ -15,4 +15,8 @@
     <ProjectReference Include="..\WfhTracker.Shared\WfhTracker.Shared.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Endpoints\" />
+  </ItemGroup>
+
 </Project>

@@ -1,6 +1,6 @@
 ﻿namespace WfhTracker.Shared.Models
 {
-    public class WorkFromHomeEntry
+    public class Entry
     {
         public Guid Id { get; set; }
 

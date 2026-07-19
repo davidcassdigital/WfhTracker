@@ -1,4 +1,5 @@
 using WfhTracker.Api.Extensions;
+using WfhTracker.Api.Repositories;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -16,6 +17,8 @@ builder.Services.AddCors(options =>
         policy.WithOrigins(corsPolicy ?? ["https://localhost:7154"]);
     });
 });
+
+builder.Services.AddSingleton<IEntryRepository, InMemoryEntryRepository>();
 
 var app = builder.Build();
 

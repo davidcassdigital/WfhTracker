@@ -1,8 +1,44 @@
 ﻿@page "/counter"
+@using WfhTracker.Client.Services
+@using WfhTracker.Shared.Models
+@inject HealthService healthService
+@inject EntryService workEntriesService
 
 <PageTitle>Counter</PageTitle>
 
-<h1>Counter</h1>
+@if (isLoading)
+{
+    <svg class="loading-progress">
+        <circle r="40%" cx="50%" cy="50%" />
+        <circle r="40%" cx="50%" cy="50%" />
+    </svg>
+    <div class="loading-progress-text">Checking health...</div>
+
+}
+else
+{
+    <p>@healthStatus</p>
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Date</th>
+                <th>Hours</th>
+                <th>Notes</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var entry in workFromHomeEntries)
+            {
+                <tr>
+                    <td>@entry.Date.ToShortDateString()</td>
+                    <td>@entry.HoursWorked</td>
+                    <td>@entry.Notes</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
 
 <p role="status">Current count: @currentCount</p>
 
@@ -10,7 +46,26 @@
 
 @code {
     private int currentCount = 0;
+    private string? healthStatus;
+    private List<Entry> workFromHomeEntries = [];
+    private bool isLoading = true;
 
+    protected override async Task OnInitializedAsync()
+    {
+        try
+        {
+            healthStatus = await healthService.GetStatusAsync();
+            workFromHomeEntries = await workEntriesService.GetWorkFromHomeEntriesAsync();
+        }
+        catch (Exception ex)
+        {
+            healthStatus = $"Error: {ex.Message}";
+        }
+        finally
+        {
+            isLoading = false;
+        }
+    }
     private void IncrementCount()
     {
         currentCount++;
