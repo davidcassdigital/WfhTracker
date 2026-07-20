@@ -1,8 +1,11 @@
 ﻿@page "/counter"
+
 @using WfhTracker.Client.Services
 @using WfhTracker.Shared.Models
 @inject HealthService healthService
 @inject EntryService entryService
+
+@attribute [Authorize]
 
 <PageTitle>Counter</PageTitle>
 

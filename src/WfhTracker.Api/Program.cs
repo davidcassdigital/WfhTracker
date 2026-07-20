@@ -1,3 +1,5 @@
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.Identity.Web;
 using WfhTracker.Api.Extensions;
 using WfhTracker.Api.Models;
 using WfhTracker.Api.Repositories;
@@ -12,6 +14,8 @@ builder.Services.AddSwaggerGen();
 
 var corsPolicy = builder.Configuration.GetSection("CorsPolicy:WithOrigins").Get<string[]>();
 
+// TODO - use settings to set the base address for the HttpClient
+
 // Could move these to an extension class
 builder.Services.AddCors(options =>
 {
@@ -20,6 +24,10 @@ builder.Services.AddCors(options =>
         policy.WithOrigins(corsPolicy ?? ["https://localhost:7154"]);
     });
 });
+
+builder.Services
+    .AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+    .AddMicrosoftIdentityWebApi(builder.Configuration.GetSection("AzureAd"));
 
 builder.Services.AddSingleton<IEntryRepository, BlobEntryRepository>();
 builder.Services.AddSingleton<IBlobStorageService, BlobStorageService>();
@@ -35,6 +43,9 @@ if (app.Environment.IsDevelopment())
     app.UseSwagger();
     app.UseSwaggerUI();
 }
+
+app.UseAuthentication();
+app.UseAuthorization();
 
 app.UseHttpsRedirection();
 app.UseCors("BlazorClient");

@@ -16,15 +16,20 @@ namespace WfhTracker.Api.Extensions
 
         private static WebApplication MapEntriesEndpoints(WebApplication app)
         {
+            var group = app.MapGroup("/api/entries")
+                .WithTags("Entries")
+                .RequireAuthorization()
+                .WithOpenApi();
+
             // Could be improved by moving out to a separate class for each endpoint.
-            app.MapGet("/api/entries",
+            group.MapGet("/",
                 async ([FromServices] IEntryRepository repository) =>
                 {
                     return Results.Ok(await repository.GetAllAsync());
                 }
             );
 
-            app.MapGet("/api/entries/{id}",
+            group.MapGet("/{id:guid}",
                 async ([FromRoute] Guid id, [FromServices] IEntryRepository repository) =>
                 {
                     var entry = await repository.GetAsync(id);
@@ -32,7 +37,7 @@ namespace WfhTracker.Api.Extensions
                 }
             );
 
-            app.MapPost("/api/entries",
+            group.MapPost("/",
                 async ([FromBody] Entry entry, [FromServices] IEntryRepository repository) =>
                 {
                     entry.Id = Guid.NewGuid();
@@ -41,7 +46,7 @@ namespace WfhTracker.Api.Extensions
                 }
             );
 
-            app.MapPut("/api/entries/{id}",
+            group.MapPut("/{id:guid}",
                 async ([FromRoute] Guid id, [FromBody] Entry entry, [FromServices] IEntryRepository repository) =>
                 {
                     var existingEntry = await repository.GetAsync(id);
@@ -54,7 +59,7 @@ namespace WfhTracker.Api.Extensions
                 }
             );
 
-            app.MapDelete("/api/entries/{id}",
+            group.MapDelete("/{id:guid}",
                 async ([FromRoute] Guid id, [FromServices] IEntryRepository repository) =>
                 {
                     var entry = await repository.GetAsync(id);

@@ -1,14 +1,56 @@
 using Microsoft.AspNetCore.Components.Web;
+using Microsoft.AspNetCore.Components.WebAssembly.Authentication;
 using Microsoft.AspNetCore.Components.WebAssembly.Hosting;
 using WfhTracker.Client;
 using WfhTracker.Client.Services;
 
 var builder = WebAssemblyHostBuilder.CreateDefault(args);
+
 builder.RootComponents.Add<App>("#app");
 builder.RootComponents.Add<HeadOutlet>("head::after");
 
+builder.Services.AddMsalAuthentication(options =>
+{
+    builder.Configuration.Bind("AzureAd", options.ProviderOptions);
+
+    var scopes = builder.Configuration.GetSection("Api:Scopes").Get<string[]>();
+
+    if (scopes != null)
+    {
+        foreach (var scope in scopes)
+        {
+            options.ProviderOptions.DefaultAccessTokenScopes.Add(scope);
+        }
+    }
+});
+
+// Are these required??
+// TO DO - use settings to set the base address for the HttpClient
 builder.Services.AddScoped(sp => new HttpClient { BaseAddress = new Uri("https://localhost:7232") });
 builder.Services.AddScoped<IHttpService, HttpService>();
+
+builder.Services.AddHttpClient("WfhTracker.Api", client =>
+{
+    client.BaseAddress = new Uri(builder.Configuration["Api:BaseUrl"]!);
+})
+.AddHttpMessageHandler(sp =>
+{
+    var handler = sp.GetRequiredService<AuthorizationMessageHandler>()
+        .ConfigureHandler(
+            authorizedUrls:
+            [
+                 builder.Configuration["Api:BaseUrl"]!
+            ],
+            scopes: builder.Configuration
+                .GetSection("Api:Scopes")
+                .Get<string[]>()!);
+
+    return handler;
+});
+
+builder.Services.AddScoped(sp =>
+    sp.GetRequiredService<IHttpClientFactory>()
+        .CreateClient("WfhTracker.Api"));
 
 builder.Services.AddScoped<HealthService>();
 builder.Services.AddScoped<EntryService>();
