@@ -4,13 +4,13 @@ namespace WfhTracker.Api.Repositories;
 
 public interface IEntryRepository
 {
-    Task<IEnumerable<Entry>> GetAllAsync();
+    Task<IEnumerable<Entry>> GetAllAsync(string userId);
 
-    Task<Entry?> GetAsync(Guid id);
+    Task<Entry?> GetAsync(string userId, Guid id);
 
-    Task AddAsync(Entry entry);
+    Task AddAsync(string userId, Entry entry);
 
-    Task UpdateAsync(Entry entry);
+    Task UpdateAsync(string userId, Entry entry);
 
-    Task DeleteAsync(Guid id);
+    Task DeleteAsync(string userId, Guid id);
 }

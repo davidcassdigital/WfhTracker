@@ -1,4 +1,6 @@
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Identity.Web;
+using System.Security.Claims;
 using WfhTracker.Api.Repositories;
 using WfhTracker.Shared.Models;
 
@@ -23,50 +25,66 @@ namespace WfhTracker.Api.Extensions
 
             // Could be improved by moving out to a separate class for each endpoint.
             group.MapGet("/",
-                async ([FromServices] IEntryRepository repository) =>
+                async (ClaimsPrincipal user,
+                    [FromServices] IEntryRepository repository) =>
                 {
-                    return Results.Ok(await repository.GetAllAsync());
+                    var userId = user.GetObjectId() ??
+                        throw new UnauthorizedAccessException();
+
+                    return Results.Ok(await repository.GetAllAsync(userId));
                 }
             );
 
             group.MapGet("/{id:guid}",
-                async ([FromRoute] Guid id, [FromServices] IEntryRepository repository) =>
+                async (ClaimsPrincipal user, [FromRoute] Guid id, [FromServices] IEntryRepository repository) =>
                 {
-                    var entry = await repository.GetAsync(id);
+                    var userId = user.GetObjectId() ??
+                        throw new UnauthorizedAccessException();
+
+                    var entry = await repository.GetAsync(userId, id);
                     return entry is not null ? Results.Ok(entry) : Results.NotFound();
                 }
             );
 
             group.MapPost("/",
-                async ([FromBody] Entry entry, [FromServices] IEntryRepository repository) =>
+                async (ClaimsPrincipal user, [FromBody] Entry entry, [FromServices] IEntryRepository repository) =>
                 {
+                    var userId = user.GetObjectId() ??
+                        throw new UnauthorizedAccessException();
+
                     entry.Id = Guid.NewGuid();
-                    await repository.AddAsync(entry);
+                    await repository.AddAsync(userId, entry);
                     return Results.Created($"/api/entries/{entry.Id}", entry);
                 }
             );
 
             group.MapPut("/{id:guid}",
-                async ([FromRoute] Guid id, [FromBody] Entry entry, [FromServices] IEntryRepository repository) =>
+                async (ClaimsPrincipal user, [FromRoute] Guid id, [FromBody] Entry entry, [FromServices] IEntryRepository repository) =>
                 {
-                    var existingEntry = await repository.GetAsync(id);
+                    var userId = user.GetObjectId() ??
+                        throw new UnauthorizedAccessException();
+
+                    var existingEntry = await repository.GetAsync(userId, id);
                     if (existingEntry is null)
                         return Results.NotFound();
 
                     entry.Id = id;
-                    await repository.UpdateAsync(entry);
+                    await repository.UpdateAsync(userId, entry);
                     return Results.Ok(entry);
                 }
             );
 
             group.MapDelete("/{id:guid}",
-                async ([FromRoute] Guid id, [FromServices] IEntryRepository repository) =>
+                async (ClaimsPrincipal user, [FromRoute] Guid id, [FromServices] IEntryRepository repository) =>
                 {
-                    var entry = await repository.GetAsync(id);
+                    var userId = user.GetObjectId() ??
+                        throw new UnauthorizedAccessException();
+
+                    var entry = await repository.GetAsync(userId, id);
                     if (entry is null)
                         return Results.NotFound();
 
-                    await repository.DeleteAsync(id);
+                    await repository.DeleteAsync(userId, id);
                     return Results.NoContent();
                 }
             );
