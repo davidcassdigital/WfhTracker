@@ -24,11 +24,6 @@ builder.Services.AddMsalAuthentication(options =>
     }
 });
 
-// Are these required??
-// TO DO - use settings to set the base address for the HttpClient
-builder.Services.AddScoped(sp => new HttpClient { BaseAddress = new Uri("https://localhost:7232") });
-builder.Services.AddScoped<IHttpService, HttpService>();
-
 builder.Services.AddHttpClient("WfhTracker.Api", client =>
 {
     client.BaseAddress = new Uri(builder.Configuration["Api:BaseUrl"]!);
@@ -51,6 +46,8 @@ builder.Services.AddHttpClient("WfhTracker.Api", client =>
 builder.Services.AddScoped(sp =>
     sp.GetRequiredService<IHttpClientFactory>()
         .CreateClient("WfhTracker.Api"));
+
+builder.Services.AddScoped<IHttpService, HttpService>();
 
 builder.Services.AddScoped<HealthService>();
 builder.Services.AddScoped<EntryService>();

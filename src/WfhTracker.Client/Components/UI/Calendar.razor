@@ -1,0 +1,48 @@
+﻿<div class="flex h-full w-full flex-col rounded-lg bg-zinc-900 p-6 shadow-lg">
+    <!-- Header with month/year and navigation -->
+    <div class="mb-6 flex items-center justify-between">
+        <button @onclick="PreviousMonth" 
+                class="rounded px-3 py-2 text-zinc-400 transition hover:bg-zinc-800 hover:text-white">
+            <BackIcon class="h-4 w-4" />
+        </button>
+
+        <h2 class="text-md font-semibold text-white">
+            @CurrentMonth.ToString("MMMM yyyy")
+        </h2>
+
+        <button @onclick="NextMonth" 
+                class="rounded px-3 py-2 text-zinc-400 transition hover:bg-zinc-800 hover:text-white">
+            <NextIcon class="h-4 w-4" />
+        </button>
+    </div>
+
+    <!-- Day headers -->
+    <div class="mb-4 grid grid-cols-7 gap-2">
+        @foreach (var day in DayNames)
+        {
+            <div class="text-center text-sm font-semibold text-amber-600">
+                @day
+            </div>
+        }
+    </div>
+
+    <!-- Calendar grid -->
+    <div class="grid flex-1 grid-cols-7 gap-2">
+        @foreach (var date in GetCalendarDays())
+        {
+            <div class="@GetDayClass(date)" 
+                 @onclick="async () => await HandleDateSelect(date)">
+                <span class="absolute top-1 left-1 text-xs">@date.Day</span>
+                @if (HasEntry(date))
+                {
+                    <div>
+                        <HomeIcon/>
+                    </div>
+                }
+            </div>
+        }
+    </div>
+</div>
+
+
+

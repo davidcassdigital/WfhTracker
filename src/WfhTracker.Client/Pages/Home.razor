@@ -1,9 +1,29 @@
 ﻿@page "/"
 
+@inject EntryService entryService
+
 @attribute [Authorize]
 
-<PageTitle>Home</PageTitle>
+<PageTitle>WFH Tracker</PageTitle>
 
-<h1>Hello, world!</h1>
+@if (isLoading)
+{
+    <LoadingSpinner />
+}
+else
+{
+    <div class="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-4">
+        <div class="col-span-1 rounded-lg bg-zinc-800 p-6 shadow-lg md:col-span-2">
+            <Calendar Entries="@entries" OnDateSelected="@HandleDateSelected" />
+        </div>
+        <div class="col-span-1 rounded-lg bg-zinc-800 p-6 shadow-lg">
+            <DayEditor OnEntryModified="@HandleEntryModified" SelectedDate="@selectedDate" />
+        </div>
 
-Welcome to your new app.
+        <div class="col-span-1 rounded-lg bg-zinc-800 p-6 shadow-lg">
+            <Calculator />
+        </div>
+    </div>
+}
+
+

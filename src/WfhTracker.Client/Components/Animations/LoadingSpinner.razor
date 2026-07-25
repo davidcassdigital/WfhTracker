@@ -1,0 +1,18 @@
+﻿@* Loading spinner using logo *@
+
+<div class="flex min-h-screen flex-col items-center justify-center bg-zinc-950">
+    <div class="relative mb-4 h-24 w-24">
+        <!-- Rotating border circle -->
+        <div class="absolute inset-0 animate-spin rounded-full border-4 border-transparent border-t-amber-600 border-r-amber-600"></div>
+
+        <!-- Logo in center -->
+        <div class="absolute inset-0 flex items-center justify-center">
+            <img src="images/logo.png" alt="Loading" class="h-16 w-16" />
+        </div>
+    </div>
+
+    <div class="text-sm text-zinc-400">Loading</div>
+</div>
+
+@code {
+}

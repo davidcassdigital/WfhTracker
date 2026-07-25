@@ -1,0 +1,30 @@
+﻿@inject NavigationManager Navigation
+@inject SignOutSessionStateManager SignOutManager
+
+<div class="flex items-center gap-2">
+    <AuthorizeView>
+        <Authorized>
+            <ProfileIcon />
+@*         <span>@context.User.GetDisplayName()</span>
+            <button @onclick="Logout">
+                Log out
+            </button> *@
+        </Authorized>
+
+        <NotAuthorized>
+            <a href="authentication/login"
+               class="rounded-lg bg-blue-600 px-4 py-2 text-white hover:bg-blue-700">
+                Sign In
+            </a>
+        </NotAuthorized>
+    </AuthorizeView>
+</div>
+
+@code
+{
+    private async Task Logout()
+    {
+        await SignOutManager.SetSignOutState();
+        Navigation.NavigateTo("authentication/logout");
+    }
+}

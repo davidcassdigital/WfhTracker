@@ -7,7 +7,5 @@
         public DateOnly Date { get; set; }
 
         public decimal HoursWorked { get; set; }
-
-        public string? Notes { get; set; }
     }
 }

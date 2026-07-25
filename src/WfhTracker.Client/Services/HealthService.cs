@@ -1,10 +1,10 @@
 ﻿namespace WfhTracker.Client.Services
 {
-    public class HealthService(HttpClient http)
+    public class HealthService(IHttpService http)
     {
         public async Task<string> GetStatusAsync()
         {
-            return await http.GetStringAsync("api/health");
+            return await http.GetAsync<string>("api/health") ?? string.Empty;
         }
     }
 }
