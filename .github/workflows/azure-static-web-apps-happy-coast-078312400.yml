@@ -30,7 +30,7 @@ jobs:
 
       - name: Check deployment token
         run: |
-          if [ -z "${{ secrets.AZURE_STATIC_WEB_APPS_API_TOKEN_HAPPY_COAST_078312400 }}" ]; then
+          if [ -z "${{ secrets.AZURE_STATIC_WEB_APPS_API_TOKEN }}" ]; then
             echo "Token is missing"
             exit 1
           else
