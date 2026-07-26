@@ -28,6 +28,15 @@ jobs:
       - name: Publish
         run: dotnet publish src/WfhTracker.Client/WfhTracker.Client.csproj -c Release
 
+      - name: Check deployment token
+        run: |
+          if [ -z "${{ secrets.AZURE_STATIC_WEB_APPS_API_TOKEN_HAPPY_COAST_078312400 }}" ]; then
+            echo "Token is missing"
+            exit 1
+          else
+            echo "Token is present"
+          fi
+          
       - name: Deploy
         uses: Azure/static-web-apps-deploy@v1
         with:
