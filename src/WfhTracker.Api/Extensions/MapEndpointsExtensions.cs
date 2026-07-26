@@ -26,12 +26,19 @@ namespace WfhTracker.Api.Extensions
             // Could be improved by moving out to a separate class for each endpoint.
             group.MapGet("/",
                 async (ClaimsPrincipal user,
-                    [FromServices] IEntryRepository repository) =>
+                    [FromServices] IEntryRepository repository,
+                    ILogger<Program> logger) =>
                 {
-                    var userId = user.GetObjectId() ??
-                        throw new UnauthorizedAccessException();
+                    //var userId = user.GetObjectId() ??
+                    //    throw new UnauthorizedAccessException();
 
-                    return Results.Ok(await repository.GetAllAsync(userId));
+                    var userId = user.GetObjectId();
+
+                    logger.LogInformation("Authenticated user id: {UserId}", userId);
+
+                    return userId is null
+                        ? Results.Unauthorized()
+                        : Results.Ok(await repository.GetAllAsync(userId));
                 }
             );
 
