@@ -1,25 +1,29 @@
-﻿<header class="bg-zinc-950 px-6 py-4">
-    <div class="mx-auto flex max-w-7xl items-stretch gap-4">
-        
+﻿<header class="bg-zinc-950 px-4 py-4 sm:px-6">
+    <div class="mx-auto flex max-w-7xl flex-wrap items-center gap-4 lg:flex-nowrap">
+
         <!-- Logo without background -->
-        <div class="flex h-24 w-24 items-center justify-center rounded">
-            <img src="images/logo.png" alt="WFH Tracker" class="profile-icon" />
+        <div class="flex w-auto flex-shrink-0 items-center justify-center rounded" style="height: 80px;">
+            <img src="images/logo.png" alt="WFH Tracker" class="profile-icon h-full" />
         </div>
 
-        <!-- Title and subtitle -->
-        <div>
-            <h1 class="text-lg font-bold text-white">WFH Tracker - BETA</h1>
-            <p class="text-sm text-zinc-400">Work-from-home tax deduction calculator</p>
-            <p class="mt-1 text-sm text-zinc-500">Keep track of your work from home hours. Record your hours worked from home and estimate your tax deduction using the current ATO fixed rate method.</p>
+        <!-- Title -->
+        <div class="flex flex-col justify-center">
+            <h1 class="text-lg font-bold text-white">WFH Tracker</h1>
         </div>
 
         <!-- User profile (right side) -->
-        <div class="ml-auto">
+        <div class="ml-auto flex flex-col justify-center">
             <UserProfile />
         </div>
 
     </div>
-    
+
+    <!-- Description paragraphs -->
+    <div class="mx-auto mt-4 max-w-7xl px-4 sm:px-6">
+        <p class="text-sm text-zinc-400">Work-from-home tax deduction calculator</p>
+        <p class="mt-1 text-sm text-zinc-500">Keep track of your work from home hours. Record your hours worked from home and estimate your tax deduction using the current ATO fixed rate method.</p>
+    </div>
+
     <!-- Fading separator -->
     <div class="bg-gradient-to-r mx-auto mt-4 h-px max-w-7xl from-transparent via-zinc-800 to-transparent"></div>
 </header>

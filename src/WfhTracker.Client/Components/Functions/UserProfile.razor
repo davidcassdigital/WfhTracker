@@ -4,16 +4,29 @@
 <div class="flex items-center gap-2">
     <AuthorizeView>
         <Authorized>
-            <ProfileIcon />
-@*         <span>@context.User.GetDisplayName()</span>
-            <button @onclick="Logout">
-                Log out
-            </button> *@
+            <div class="relative" @onmouseenter="OpenDropdown" @onmouseleave="CloseDropdownDelayed">
+                <button class="cursor-pointer transition-opacity hover:opacity-80">
+                    <ProfileIcon Class="text-zinc-300" />
+                </button>
+
+                @if (isDropdownOpen)
+                {
+                    <div class="absolute top-full z-50 mt-1 w-48 rounded-lg border border-zinc-700 bg-zinc-900 shadow-lg" style="left: -150px;">
+                        <div class="border-b border-zinc-700 px-4 py-3">
+                            <p class="text-sm text-zinc-300">@context.User.GetDisplayName()</p>
+                        </div>
+                        <button @onclick="Logout"
+                                class="w-full rounded-b-lg px-4 py-2 text-left text-zinc-300 transition-colors hover:bg-zinc-800">
+                            Log out
+                        </button>
+                    </div>
+                }
+            </div>
         </Authorized>
 
         <NotAuthorized>
             <a href="authentication/login"
-               class="rounded-lg bg-blue-600 px-4 py-2 text-white hover:bg-blue-700">
+               class="rounded-md bg-amber-600 px-4 py-2 font-medium text-white transition-colors hover:bg-amber-700">
                 Sign In
             </a>
         </NotAuthorized>
@@ -22,6 +35,32 @@
 
 @code
 {
+    private bool isDropdownOpen = false;
+    private CancellationTokenSource? closeTokenSource;
+
+    private void OpenDropdown()
+    {
+        closeTokenSource?.Cancel();
+        closeTokenSource = null;
+        isDropdownOpen = true;
+    }
+
+    private async Task CloseDropdownDelayed()
+    {
+        closeTokenSource?.Cancel();
+        closeTokenSource = new CancellationTokenSource();
+
+        try
+        {
+            await Task.Delay(200, closeTokenSource.Token);
+            isDropdownOpen = false;
+        }
+        catch (OperationCanceledException)
+        {
+            // Dropdown was reopened, do nothing
+        }
+    }
+
     private async Task Logout()
     {
         await SignOutManager.SetSignOutState();
