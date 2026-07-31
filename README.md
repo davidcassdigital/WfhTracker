@@ -14,23 +14,26 @@ A free Progressive Web App (PWA) for tracking work-from-home (WFH) hours and est
 * HTTP service for client-server communication
 * Entry management service on the client side
 * Blazor WebAssembly client application
-
-### Planned
-
 * Record new daily work-from-home entries
 * Edit previous entries
-* Dashboard with total hours worked from home
 * Estimate tax deductions using a user-defined hourly rate
-* Responsive design enhancements for desktop and mobile
 * Full installable Progressive Web App (PWA) experience
 * User authentication
 * Secure cloud data storage
 * Calendar view
 * Financial year summaries
+ 
+### Planned
+
+* Dashboard with total hours worked from home
+* Responsive design enhancements for desktop and mobile - needs work for mobiles
 * Export data to CSV
 * Offline support with automatic synchronisation
 * Charts and reporting
-* Reminders for missing entries
+* Better support for PWA
+* Improve UX when logging in
+* Trial version with limited entries and features
+* Checks for large files and data storage limits (spam prevention)
 
 ## Technology Stack
 
@@ -250,15 +253,15 @@ Client-side service for checking API health:
 * [x] Create solution structure
 * [x] Build Minimal API foundations
 * [x] Implement Azure Blob Storage
-* [ ] Create/Edit WFH entry screen
+* [X] Create/Edit WFH entry screen
 * [ ] Build dashboard with summary statistics
-* [ ] Add tax calculator
-* [ ] Enable user authentication
-* [ ] Implement database storage
-* [ ] Publish to Azure
-* [ ] Configure custom domain
-* [ ] Add offline support (Service Worker)
-* [ ] Implement PWA features
+* [X] Add tax calculator
+* [X] Enable user authentication
+* [X] Implement database storage
+* [X] Publish to Azure
+* [X] Configure custom domain
+* [X] Add offline support (Service Worker)
+* [X] Implement PWA features
 
 ## Disclaimer
 
