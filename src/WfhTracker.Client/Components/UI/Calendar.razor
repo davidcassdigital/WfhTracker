@@ -32,11 +32,11 @@
         {
             <div class="@GetDayClass(date)" 
                  @onclick="async () => await HandleDateSelect(date)">
-                <span class="absolute top-1 left-1 text-xs">@date.Day</span>
+                <span class="@GetDayNumberClass(date)">@date.Day</span>
                 @if (HasEntry(date))
                 {
-                    <div class="flex items-center justify-center h-full">
-                        <HomeIcon class="h-5 w-5 text-amber-500" />
+                    <div class="absolute bottom-1 right-1 flex items-center justify-center">
+                        <HomeIcon class="h-4 w-4 sm:h-5 sm:w-5 md:h-6 md:w-6 lg:h-7 lg:w-7 text-amber-500" />
                     </div>
                 }
             </div>
