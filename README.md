@@ -102,6 +102,128 @@ tests/
 - **PUT** `/api/entries/{id}` - Updates an entry (planned)
 - **DELETE** `/api/entries/{id}` - Deletes an entry (planned)
 
+## Getting Started with Docker and Azurite
+
+### Prerequisites
+
+- Docker Desktop installed and running
+- .NET 8 SDK installed locally
+- Git
+
+### Running Azurite with Docker
+
+Azurite is an Azure Storage emulator that allows you to develop and test Azure Blob Storage features locally without needing an Azure subscription.
+
+#### Quick Start
+
+1. **Pull and run the Azurite Docker container:**
+
+```bash
+docker run -d `
+  --name azurite `
+  -p 10000:10000 `
+  -p 10001:10001 `
+  -p 10002:10002 `
+  -v C:\azurite:/data `
+  mcr.microsoft.com/azure-storage/azurite:latest
+```
+
+On Linux/macOS, replace the backquotes with backslashes:
+```bash
+docker run -d \
+  --name azurite \
+  -p 10000:10000 \
+  -p 10001:10001 \
+  -p 10002:10002 \
+  -v /azurite:/data \
+  mcr.microsoft.com/azure-storage/azurite:latest
+```
+
+**Port mappings:**
+- `10000` - Blob Storage
+- `10001` - Queue Storage
+- `10002` - Table Storage
+
+#### Verify Azurite is Running
+
+```bash
+docker logs azurite
+```
+
+You should see output indicating the services are listening on the specified ports.
+
+#### Stop and Remove Container
+
+```bash
+# Stop the container
+docker stop azurite
+
+# Remove the container
+docker rm azurite
+```
+
+### Using Azurite with WFH Tracker
+
+The application is configured to use Azurite in development mode automatically.
+
+**Connection String:**
+```
+UseDevelopmentStorage=true
+```
+
+This connection string (configured in `appsettings.Development.json`) tells the Azure SDK to connect to Azurite running on `http://127.0.0.1:10000`.
+
+**Important:** Azurite version compatibility is handled automatically - the client is configured to skip version checks:
+
+In `BlobStorageService.cs`:
+```csharp
+var clientOptions = new BlobClientOptions();
+clientOptions.IsClientVersionCheckSkipped = true;
+```
+
+### Running the Application Locally
+
+1. **Start Azurite** (using Docker as shown above)
+
+2. **Restore NuGet packages:**
+```bash
+dotnet restore
+```
+
+3. **Run the API** (from `src/WfhTracker.Api`):
+```bash
+dotnet run
+```
+
+The API will be available at `https://localhost:7232`
+
+4. **Run the Client** (from `src/WfhTracker.Client` in a separate terminal):
+```bash
+dotnet run
+```
+
+The client will be available at `https://localhost:7154` (or similar, check the terminal output)
+
+5. **Access the application:**
+- Open your browser to the client URL
+- The API will automatically use Azurite for blob storage operations
+
+### Troubleshooting Azurite
+
+**Issue: "UseDevelopmentStorage=true" connection fails**
+- Verify Azurite container is running: `docker ps | grep azurite`
+- Check logs: `docker logs azurite`
+- Ensure port 10000 is not in use by another process
+
+**Issue: Storage connection timeout**
+- Check your firewall settings
+- Verify Docker is running and the container hasn't exited
+- Try restarting the container: `docker restart azurite`
+
+**Issue: Data persists between runs**
+- Azurite stores data in the volume mount (`/data` in the container)
+- To clear data, stop and remove the container, then remove the volume
+
 ## Development
 
 ### Services

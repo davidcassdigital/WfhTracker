@@ -25,6 +25,8 @@ public class BlobStorageService : IBlobStorageService
 
         _container = serviceClient.GetBlobContainerClient(
             options.Value.ContainerName);
+
+        _container.CreateIfNotExists();
     }
 
     public async Task<T?> ReadJsonAsync<T>(string blobName)
