@@ -1,0 +1,93 @@
+﻿@page "/welcome"
+
+<PageTitle>Welcome - WFH Tracker</PageTitle>
+
+<div class="flex min-h-screen flex-col items-center justify-center bg-zinc-950 px-4">
+    <!-- Main Content -->
+    <div class="w-full max-w-2xl">
+        <!-- Header -->
+        <div class="mb-12 text-center">
+            <h1 class="mb-4 text-5xl font-bold text-white">WFH Tracker</h1>
+            <p class="text-xl text-zinc-300">Track your work-from-home hours and estimate your tax deduction.</p>
+        </div>
+
+        <!-- Hero Section -->
+        <div class="bg-gradient-to-br mb-12 rounded-lg border border-amber-600/20 from-amber-600/10 to-amber-600/5 p-8">
+            <h2 class="mb-4 text-2xl font-semibold text-white">Make tax time easier</h2>
+            <p class="mb-4 text-zinc-300">
+                Record your eligible work-from-home hours and estimate your Australian tax deduction using the ATO's fixed rate method.
+            </p>
+            <p class="text-zinc-400">
+                Built for Australian employees who regularly work from home.
+            </p>
+        </div>
+
+        <!-- Features Grid -->
+        <div class="mb-12 grid grid-cols-1 gap-6 md:grid-cols-3">
+            <!-- Feature 1 -->
+            <div class="rounded-lg border border-zinc-800 bg-zinc-900 p-6">
+                <div class="mb-3 text-3xl text-amber-600">📅</div>
+                <h3 class="mb-2 text-lg font-semibold text-white">Track Hours</h3>
+                <p class="text-sm text-zinc-400">
+                    Easily log your daily work-from-home hours with a simple, intuitive calendar interface.
+                </p>
+            </div>
+
+            <!-- Feature 2 -->
+            <div class="rounded-lg border border-zinc-800 bg-zinc-900 p-6">
+                <div class="mb-3 text-3xl text-amber-600">💰</div>
+                <h3 class="mb-2 text-lg font-semibold text-white">Estimate</h3>
+                <p class="text-sm text-zinc-400">
+                    Estimate your work-from-home tax deduction using the ATO's fixed rate method.
+                </p>
+            </div>
+
+            <!-- Feature 3 -->
+            <div class="rounded-lg border border-zinc-800 bg-zinc-900 p-6">
+                <div class="mb-3 text-3xl text-amber-600">🔒</div>
+                <h3 class="mb-2 text-lg font-semibold text-white">Secure & Private</h3>
+                <p class="text-sm text-zinc-400">
+                    Your information is stored securely in your account and is never shared with third parties.
+                </p>
+            </div>
+        </div>
+
+        <!-- How It Works -->
+        <div class="mb-12 rounded-lg border border-zinc-800 bg-zinc-900 p-8">
+            <h2 class="mb-6 text-2xl font-semibold text-white">How It Works</h2>
+            <div class="space-y-4">
+                <div class="flex gap-4">
+                    <div class="flex h-8 w-8 flex-shrink-0 items-center justify-center rounded-full bg-amber-600 text-sm font-semibold text-white">1</div>
+                    <div>
+                        <h3 class="font-medium text-white">Sign In</h3>
+                        <p class="text-sm text-zinc-400">Sign in securely with your Microsoft account to access your personal WFH records.</p>
+                    </div>
+                </div>
+                <div class="flex gap-4">
+                    <div class="flex h-8 w-8 flex-shrink-0 items-center justify-center rounded-full bg-amber-600 text-sm font-semibold text-white">2</div>
+                    <div>
+                        <h3 class="font-medium text-white">Log Your Hours</h3>
+                        <p class="text-sm text-zinc-400">Enter your work-from-home hours for each day using the calendar interface.</p>
+                    </div>
+                </div>
+                <div class="flex gap-4">
+                    <div class="flex h-8 w-8 flex-shrink-0 items-center justify-center rounded-full bg-amber-600 text-sm font-semibold text-white">3</div>
+                    <div>
+                        <h3 class="font-medium text-white">Estimate Your Deduction</h3>
+                        <p class="text-sm text-zinc-400">View your total eligible hours, estimate your tax deduction, and generate a summary for your records.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- CTA Section -->
+        <div class="text-center">
+            <a href="authentication/login" class="inline-block rounded-lg bg-amber-600 px-8 py-4 text-lg font-semibold text-white transition-colors hover:bg-amber-700">
+                Get Started - Sign In Now
+            </a>
+            <p class="mt-4 text-sm text-zinc-500">
+                Secure login powered by Microsoft
+            </p>
+        </div>
+    </div>
+</div>

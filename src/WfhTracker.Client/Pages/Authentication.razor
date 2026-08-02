@@ -1,10 +1,34 @@
 ﻿@page "/authentication/{action}"
 
 @using Microsoft.AspNetCore.Components.WebAssembly.Authentication
+@inject NavigationManager Navigation
 
-<RemoteAuthenticatorView Action="@Action" />
+@if (Action == "login-failed")
+{
+    @* Redirect to welcome page on login failure *@
+}
+else
+{
+    <RemoteAuthenticatorView Action="@Action" />
+}
 
 @code {
     [Parameter]
     public string? Action { get; set; }
+
+    protected override void OnInitialized()
+    {
+        if (Action == "login-failed")
+        {
+            Navigation.NavigateTo("/welcome");
+        }
+    }
+
+    protected override void OnParametersSet()
+    {
+        if (Action == "login-failed")
+        {
+            Navigation.NavigateTo("/welcome", true);
+        }
+    }
 }

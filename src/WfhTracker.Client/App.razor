@@ -4,7 +4,9 @@
             <AuthorizeRouteView RouteData="@routeData"
                                 DefaultLayout="@typeof(MainLayout)">
                 <NotAuthorized>
-                    <RedirectToLogin />
+                    <LayoutView Layout="@typeof(MainLayout)">
+                        <RedirectToLogin />
+                    </LayoutView>
                 </NotAuthorized>
             </AuthorizeRouteView>
 
