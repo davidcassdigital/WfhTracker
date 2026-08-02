@@ -40,9 +40,8 @@ namespace WfhTracker.Client.Components.UI
             return $"{fiscalStart}-{fiscalStart + 1}";
         }
 
-        private void OnFinancialYearChanged(ChangeEventArgs e)
+        private void OnFinancialYearChanged()
         {
-            selectedFinancialYear = e.Value?.ToString() ?? "";
             SetDatesFromFinancialYear(selectedFinancialYear);
         }
 

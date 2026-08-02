@@ -3,8 +3,6 @@ using WfhTracker.Shared.Models;
 
 namespace WfhTracker.Client.Components.UI
 {
-    // Needs a tidy...
-
     public partial class Calendar
     {
         [Parameter]
@@ -16,7 +14,6 @@ namespace WfhTracker.Client.Components.UI
 
         private DateTime CurrentMonth = DateTime.Now;
         private DateTime selectedDate = DateTime.Today;
-        private readonly string[] DayNames = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
 
         private async Task HandleDateSelect(DateTime date)
         {
@@ -58,50 +55,54 @@ namespace WfhTracker.Client.Components.UI
 
         private string GetDayClass(DateTime date)
         {
+            var isCurrentDate = date.Date == DateTime.Today;
             var isCurrentMonth = date.Month == CurrentMonth.Month;
-            var isToday = date.Date == DateTime.Today;
             var isSelected = date.Date == selectedDate.Date;
             var hasEntry = HasEntry(date);
 
-            var baseClass = "p-2 rounded cursor-pointer transition aspect-square relative text-sm";
+            var baseClass = "p-2 rounded cursor-pointer transition aspect-square relative text-xs md: text-lg hover:bg-zinc-700";
 
+            // Add amber border
             if (isSelected)
             {
-                return $"{baseClass} bg-zinc-500 text-white hover:bg-zinc-600";
+                baseClass = $"{baseClass} border-2 border-amber-600";
             }
-            else if (hasEntry)
+
+            // Set the day number colour
+            if (hasEntry)
             {
-                return $"{baseClass} bg-zinc-800 text-white border-2 border-amber-600 hover:bg-zinc-700";
-            }
-            else if (isToday)
-            {
-                return $"{baseClass} bg-zinc-800 text-white hover:bg-zinc-700";
+                baseClass = $"{baseClass} text-amber-600";
             }
             else if (isCurrentMonth)
             {
-                return $"{baseClass} bg-zinc-800 text-white hover:bg-zinc-700";
+                baseClass = $"{baseClass} text-white";
             }
             else
             {
-                return $"{baseClass} bg-zinc-950 text-zinc-500 hover:bg-zinc-800";
+                baseClass = $"{baseClass} text-zinc-500";
             }
+
+            // Set the background colour
+            if (isCurrentMonth)
+            {
+                baseClass = $"{baseClass} bg-zinc-800";
+            }
+            else
+            {
+                baseClass = $"{baseClass} bg-zinc-950";
+            }
+
+            if (isCurrentDate)
+            {
+                baseClass = $"{baseClass} underline decoration-2 underline-offset-2";
+            }
+
+            return baseClass;
         }
 
         private bool HasEntry(DateTime date)
         {
             return Entries.Exists(e => e.Date == DateOnly.FromDateTime(date));
-        }
-
-        private static string GetDayNumberClass(DateTime date)
-        {
-            var isToday = date.Date == DateTime.Today;
-
-            if (isToday)
-            {
-                return "absolute top-1 left-1 text-xs sm:text-sm inline-flex h-4 w-4 sm:h-5 sm:w-5 md:h-6 md:w-6 items-center justify-center rounded-full bg-amber-600 text-zinc-950 font-semibold";
-            }
-
-            return "absolute top-1 left-1 text-xs sm:text-sm";
         }
     }
 }

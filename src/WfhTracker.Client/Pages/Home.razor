@@ -13,14 +13,14 @@
 else
 {
     <div class="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-4">
-        <div class="col-span-1 rounded-lg bg-zinc-800 p-6 shadow-lg md:col-span-2">
+        <div class="col-span-1 rounded-lg bg-zinc-900 p-6 shadow-lg md:col-span-2">
             <Calendar Entries="@entries" OnDateSelected="@HandleDateSelected" />
         </div>
-        <div class="col-span-1 rounded-lg bg-zinc-800 p-6 shadow-lg">
+        <div class="col-span-1 rounded-lg bg-zinc-900 p-6 shadow-lg">
             <DayEditor OnEntryModified="@HandleEntryModified" SelectedDate="@selectedDate" />
         </div>
 
-        <div class="col-span-1 rounded-lg bg-zinc-800 p-6 shadow-lg">
+        <div class="col-span-1 rounded-lg bg-zinc-900 p-6 shadow-lg">
             <Calculator />
         </div>
     </div>
