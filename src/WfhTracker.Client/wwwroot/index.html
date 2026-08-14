@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="en">
 
 <head>
@@ -9,25 +9,25 @@
     <link rel="stylesheet" href="css/bootstrap/bootstrap.min.css" />
     <link href="css/output.css" rel="stylesheet" />
     <link href="css/app.css" rel="stylesheet" />
-    <link rel="icon" type="image/ico" href="favicon.ico" />
+    <link rel="icon" type="image/svg" href="favicon.svg" />
     <link href="manifest.webmanifest" rel="manifest" />
     <link rel="apple-touch-icon" sizes="512x512" href="icon-512.png" />
     <link rel="apple-touch-icon" sizes="192x192" href="icon-192.png" />
 </head>
 
 <body>
-    <div id="app" class="flex flex-col items-center justify-center min-h-screen bg-zinc-950">
-        <div class="relative w-24 h-24 mb-4">
+    <div id="app" class="flex min-h-screen flex-col items-center justify-center bg-zinc-950">
+        <div class="relative mb-4 h-24 w-24">
             <!-- Rotating border circle -->
-            <div class="absolute inset-0 rounded-full border-4 border-transparent border-t-amber-600 border-r-amber-600 animate-spin"></div>
+            <div class="absolute inset-0 animate-spin rounded-full border-4 border-transparent border-t-amber-600 border-r-amber-600"></div>
 
             <!-- Logo in center -->
             <div class="absolute inset-0 flex items-center justify-center">
-                <img src="images/logo.png" alt="Loading" class="w-16 h-16" />
+                <img src="images/logo.png" alt="Loading" class="h-16 w-16" />
             </div>
         </div>
 
-        <div class="text-zinc-400 text-sm">Loading</div>
+        <div class="text-sm text-zinc-400">Loading</div>
     </div>
 
     <div id="blazor-error-ui">
@@ -37,7 +37,7 @@
     </div>
     <script src="_content/Microsoft.Authentication.WebAssembly.Msal/AuthenticationService.js"></script>
     <script src="_framework/blazor.webassembly.js"></script>
-    <script>navigator.serviceWorker.register('service-worker.js');</script>
+    <!--<script>navigator.serviceWorker.register('service-worker.js');</script>-->
 </body>
 
 </html>

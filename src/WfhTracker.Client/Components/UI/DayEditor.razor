@@ -1,7 +1,7 @@
 ﻿@inject EntryService entryService
 
 <div>
-    <h2 class="mb-6 text-sm font-semibold text-white">
+    <h2 class="mb-6 text-lg font-semibold text-white">
         @SelectedDate.ToString("dddd, MMMM d, yyyy")
     </h2>
 
@@ -11,6 +11,7 @@
                 Hours
             </label>
             <input type="number" @bind="hours" min="0" max="24" step="0.5" class="w-full rounded border border-zinc-600 bg-zinc-700 px-4 py-2 text-white focus:border-amber-600 focus:outline-none" />
+            <p class="mt-1 text-xs text-zinc-500">Enter hours worked from home (0–24, use decimals for half hours).</p>
         </div>
 
         <div class="flex gap-2">

@@ -1,6 +1,5 @@
 # WFH Tracker
 
-Testing... 
 A free Progressive Web App (PWA) for tracking work-from-home (WFH) hours and estimating Australian tax deductions using the ATO fixed-rate method.
 
 > **Project Status:** 🚧 In Development

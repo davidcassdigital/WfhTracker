@@ -2,8 +2,8 @@
 @inject IJSRuntime JSRuntime
 
 <div>
-    <h2 class="mb-6 text-xl font-semibold text-white">
-        Working from Home Deduction Calculator
+    <h2 class="mb-6 text-lg font-semibold text-white">
+        Deduction Calculator
     </h2>
 
     <div class="flex flex-col gap-4">
@@ -29,6 +29,7 @@
                 <span class="absolute px-2 py-2 text-white">$</span>
                 <input type="number" @bind="rate" step="0.01" min="0" class="w-full rounded border border-zinc-600 bg-zinc-700 px-4 py-2 pr-1 pl-7 text-white focus:border-amber-600 focus:outline-none" placeholder="0.00" />
             </div>
+            <p class="mt-1 text-xs text-zinc-500">Current ATO fixed rate. Check ATO website for the latest rate.</p>
         </div>
 
         <!-- Calculate Button -->
