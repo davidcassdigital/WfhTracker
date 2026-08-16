@@ -3,11 +3,7 @@
 @using Microsoft.AspNetCore.Components.WebAssembly.Authentication
 @inject NavigationManager Navigation
 
-@if (Action == "login-failed")
-{
-    @* Redirect to welcome page on login failure *@
-}
-else
+@if (Action != "login-failed" && Action != "logged-out")
 {
     <RemoteAuthenticatorView Action="@Action" />
 }
@@ -16,17 +12,9 @@ else
     [Parameter]
     public string? Action { get; set; }
 
-    protected override void OnInitialized()
-    {
-        if (Action == "login-failed")
-        {
-            Navigation.NavigateTo("/welcome");
-        }
-    }
-
     protected override void OnParametersSet()
     {
-        if (Action == "login-failed")
+        if (Action is "login-failed" or "logged-out")
         {
             Navigation.NavigateTo("/welcome", true);
         }
