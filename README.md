@@ -2,37 +2,60 @@
 
 A free Progressive Web App (PWA) for tracking work-from-home (WFH) hours and estimating Australian tax deductions using the ATO fixed-rate method.
 
-> **Project Status:** 🚧 In Development
+> **Project Status:** ✅ POC Complete
+
+WFH Tracker is a DC Digital proof-of-concept application demonstrating a complete cloud-hosted Blazor WebAssembly PWA, including authentication, persistent user data, Azure hosting, and PWA capabilities.
 
 ## Features
 
 ### Current
 
-* Health check API endpoint (`/api/health`)
 * View WFH entries with date, hours worked, and notes
-* HTTP service for client-server communication
-* Entry management service on the client side
-* Blazor WebAssembly client application
 * Record new daily work-from-home entries
 * Edit previous entries
 * Estimate tax deductions using a user-defined hourly rate
-* Full installable Progressive Web App (PWA) experience
-* User authentication
-* Secure cloud data storage
 * Calendar view
 * Financial year summaries
- 
-### Planned
+* User authentication and account creation using Microsoft Entra External ID
+* Secure, user-specific cloud data storage
+* Azure Blob Storage persistence
+* HTTP service for client-server communication
+* Entry management service on the client side
+* Health check API endpoint (`/api/health`)
+* Full installable Progressive Web App (PWA) experience
+* Deployed to Microsoft Azure
+* Custom application domain
+* Service worker and offline support
 
-* Dashboard with total hours worked from home
-* Responsive design enhancements for desktop and mobile - needs work for mobiles
+### Future Improvements
+
+* Dashboard with additional summary statistics
+* Responsive design enhancements for desktop and mobile
 * Export data to CSV
-* Offline support with automatic synchronisation
+* Offline data synchronisation
 * Charts and reporting
-* Better support for PWA
-* Improve UX when logging in
-* Trial version with limited entries and features
+* Improved PWA update/version handling
+* Further UX refinements
 * Checks for large files and data storage limits (spam prevention)
+
+> **Note:** WFH Tracker is intentionally being kept as a free proof-of-concept. Commercialisation and trial/limited-feature functionality are not currently planned.
+
+## Authentication
+
+WFH Tracker uses **Microsoft Entra External ID** for customer authentication.
+
+The application supports:
+
+* User registration
+* User sign-in
+* User sign-out
+* Authentication-protected application functionality
+* Redirect to the WFH Tracker welcome page after logout
+* Authentication working in both local development and the deployed PWA
+
+The tenant currently uses Microsoft's default External ID authentication domain.
+
+A branded custom authentication URL (for example, `auth.dcdigital.au`) is a potential future DC Digital platform improvement and is intentionally deferred.
 
 ## Technology Stack
 
@@ -46,10 +69,12 @@ A free Progressive Web App (PWA) for tracking work-from-home (WFH) hours and est
 
 * ASP.NET Core Minimal API (.NET 8)
 * Health check endpoints
+* Azure Blob Storage integration
 
 ### Data Models
 
 * `Entry` - Represents a work-from-home entry with:
+
   * `Id` (Guid) - Unique identifier
   * `Date` (DateOnly) - Date of the entry
   * `HoursWorked` (decimal) - Hours worked
@@ -57,13 +82,16 @@ A free Progressive Web App (PWA) for tracking work-from-home (WFH) hours and est
 
 ### Storage
 
-* Azure Blob Storage (initial)
-* Azure SQL Database (planned)
+* Azure Blob Storage
+* Azurite for local development
+* Azure SQL Database was considered as a future storage option but is not currently required
 
 ### Hosting
 
 * Microsoft Azure
+* Azure Static Web Apps
 * GitHub Actions (CI/CD)
+* Custom domain
 
 ## Project Structure
 
@@ -78,43 +106,47 @@ src/
 tests/
 ```
 
+## Getting Started
+
+1. Clone the repository.
 
 2. Open `WfhTracker.sln` in Visual Studio 2022.
 
 3. Set up your environment:
-- Configure Azure Storage credentials (if using blob storage features)
-- Update any necessary configuration files
 
-4. Start the API project first (ensure it's set as startup project or run separately).
+   * Configure Azure Storage credentials if using Azure Storage.
+   * Configure any required application settings.
+
+4. Start the API project.
 
 5. Start the Blazor client project.
 
-6. Open the application in your browser (typically `https://localhost:5173` or similar).
+6. Open the application in your browser using the URL shown by the development environment.
 
 ## API Endpoints
 
 ### Health Check
 
-- **GET** `/api/health` - Returns the health status of the API
+* **GET** `/api/health` - Returns the health status of the API.
 
 ### Entries
 
-- **GET** `/api/entries` - Retrieves all WFH entries
-- **POST** `/api/entries` - Creates a new entry (planned)
-- **PUT** `/api/entries/{id}` - Updates an entry (planned)
-- **DELETE** `/api/entries/{id}` - Deletes an entry (planned)
+* **GET** `/api/entries` - Retrieves WFH entries for the authenticated user.
+* **POST** `/api/entries` - Creates a new WFH entry.
+* **PUT** `/api/entries/{id}` - Updates an existing WFH entry.
+* **DELETE** `/api/entries/{id}` - Deletes an existing WFH entry.
 
 ## Getting Started with Docker and Azurite
 
 ### Prerequisites
 
-- Docker Desktop installed and running
-- .NET 8 SDK installed locally
-- Git
+* Docker Desktop installed and running
+* .NET 8 SDK installed locally
+* Git
 
 ### Running Azurite with Docker
 
-Azurite is an Azure Storage emulator that allows you to develop and test Azure Blob Storage features locally without needing an Azure subscription.
+Azurite is an Azure Storage emulator that allows local development and testing of Azure Blob Storage features without requiring a live Azure Storage account.
 
 #### Quick Start
 
@@ -131,6 +163,7 @@ docker run -d `
 ```
 
 On Linux/macOS, replace the backquotes with backslashes:
+
 ```bash
 docker run -d \
   --name azurite \
@@ -142,9 +175,10 @@ docker run -d \
 ```
 
 **Port mappings:**
-- `10000` - Blob Storage
-- `10001` - Queue Storage
-- `10002` - Table Storage
+
+* `10000` - Blob Storage
+* `10001` - Queue Storage
+* `10002` - Table Storage
 
 #### Verify Azurite is Running
 
@@ -157,110 +191,135 @@ You should see output indicating the services are listening on the specified por
 #### Stop and Remove Container
 
 ```bash
-# Stop the container
 docker stop azurite
-
-# Remove the container
 docker rm azurite
 ```
 
 ### Using Azurite with WFH Tracker
 
-The application is configured to use Azurite in development mode automatically.
+The application is configured to use Azurite in development mode.
 
 **Connection String:**
-```
+
+```text
 UseDevelopmentStorage=true
 ```
 
-This connection string (configured in `appsettings.Development.json`) tells the Azure SDK to connect to Azurite running on `http://127.0.0.1:10000`.
-
-**Important:** Azurite version compatibility is handled automatically - the client is configured to skip version checks:
-
-In `BlobStorageService.cs`:
-```csharp
-var clientOptions = new BlobClientOptions();
-clientOptions.IsClientVersionCheckSkipped = true;
-```
+This connection string, configured in `appsettings.Development.json`, tells the Azure SDK to connect to Azurite running locally.
 
 ### Running the Application Locally
 
-1. **Start Azurite** (using Docker as shown above)
+1. **Start Azurite** using Docker as shown above.
 
 2. **Restore NuGet packages:**
+
 ```bash
 dotnet restore
 ```
 
-3. **Run the API** (from `src/WfhTracker.Api`):
+3. **Run the API** from `src/WfhTracker.Api`:
+
 ```bash
 dotnet run
 ```
 
-The API will be available at `https://localhost:7232`
+The API will be available at the URL shown in the terminal.
 
-4. **Run the Client** (from `src/WfhTracker.Client` in a separate terminal):
+4. **Run the Client** from `src/WfhTracker.Client` in a separate terminal:
+
 ```bash
 dotnet run
 ```
 
-The client will be available at `https://localhost:7154` (or similar, check the terminal output)
-
-5. **Access the application:**
-- Open your browser to the client URL
-- The API will automatically use Azurite for blob storage operations
+5. **Access the application** using the client URL shown in the terminal.
 
 ### Troubleshooting Azurite
 
-**Issue: "UseDevelopmentStorage=true" connection fails**
-- Verify Azurite container is running: `docker ps | grep azurite`
-- Check logs: `docker logs azurite`
-- Ensure port 10000 is not in use by another process
+**Issue: `UseDevelopmentStorage=true` connection fails**
+
+* Verify the Azurite container is running:
+  `docker ps`
+* Check the logs:
+  `docker logs azurite`
+* Ensure port `10000` is not already in use.
 
 **Issue: Storage connection timeout**
-- Check your firewall settings
-- Verify Docker is running and the container hasn't exited
-- Try restarting the container: `docker restart azurite`
+
+* Check your firewall settings.
+* Verify Docker is running and the container has not exited.
+* Try restarting the container:
+
+```bash
+docker restart azurite
+```
 
 **Issue: Data persists between runs**
-- Azurite stores data in the volume mount (`/data` in the container)
-- To clear data, stop and remove the container, then remove the volume
+
+Azurite stores data in the configured volume. To clear the local data, stop and remove the container and remove the associated data.
 
 ## Development
 
 ### Services
 
 #### HttpService
+
 Generic HTTP client wrapper providing:
+
 * `GetAsync<T>()` - Fetch data
-* `PostAsync<TRequest, TResponse>()` - Create/Send data with different request/response types
-* `PostAsync<T>()` - Create/Send data with same request/response type
+* `PostAsync<TRequest, TResponse>()` - Create/send data with different request/response types
+* `PostAsync<T>()` - Create/send data with the same request/response type
 * `PutAsync<TRequest, T>()` - Update data
 * `DeleteAsync()` - Delete data
 * `SendAsync()` - Send custom HTTP requests
 
 #### EntryService
+
 Client-side service for managing WFH entries:
-* `GetEntriesAsync()` - Fetch all entries from `/api/entries`
+
+* `GetEntriesAsync()` - Fetch entries from `/api/entries`
 
 #### HealthService
+
 Client-side service for checking API health:
-* `GetStatusAsync()` - Get health status from `/api/health`
+
+* `GetStatusAsync()` - Get API health status from `/api/health`
+
+## PWA and Caching
+
+WFH Tracker uses a service worker to provide PWA and offline functionality.
+
+Published assets are versioned using the generated Blazor assets manifest. Each deployment receives a new cache version, allowing the service worker to remove obsolete cached assets when the new service worker activates.
+
+During development, caching is disabled to make local development easier.
+
+> **Known improvement:** Existing installed PWAs or browsers may temporarily continue running a previous cached version after a deployment. Improved update detection and user notification are potential future enhancements.
 
 ## Roadmap
 
 * [x] Create solution structure
 * [x] Build Minimal API foundations
 * [x] Implement Azure Blob Storage
-* [X] Create/Edit WFH entry screen
-* [ ] Build dashboard with summary statistics
-* [X] Add tax calculator
-* [X] Enable user authentication
-* [X] Implement database storage
-* [X] Publish to Azure
-* [X] Configure custom domain
-* [X] Add offline support (Service Worker)
-* [X] Implement PWA features
+* [x] Create/Edit WFH entry screen
+* [x] Add tax calculator
+* [x] Enable user authentication
+* [x] Implement user-specific cloud storage
+* [x] Publish to Azure
+* [x] Configure custom application domain
+* [x] Add offline support (Service Worker)
+* [x] Implement PWA features
+* [x] Add calendar view
+* [x] Add financial year summaries
+* [x] Implement clean logout flow
+
+### Future
+
+* [ ] Dashboard with additional summary statistics
+* [ ] CSV export
+* [ ] Offline data synchronisation
+* [ ] Charts and reporting
+* [ ] Improved PWA update handling
+* [ ] Additional responsive/mobile refinements
+* [ ] Storage/abuse protection
 
 ## Disclaimer
 
@@ -269,6 +328,3 @@ WFH Tracker provides estimates only and does not constitute tax or financial adv
 ## License
 
 This project is licensed under the MIT License.
-
-
-
