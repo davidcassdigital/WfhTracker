@@ -1,0 +1,32 @@
+﻿@using Markdig
+@inject IHttpClientFactory HttpClientFactory
+
+<div class="prose prose-invert max-w-none text-zinc-300 prose-headings:font-semibold prose-headings:text-white prose-a:text-amber-500 prose-strong:text-zinc-200 prose-a:hover:text-amber-400">
+    @((MarkupString)_htmlContent)
+</div>
+
+@code {
+    [Parameter]
+    public string? FilePath { get; set; }
+
+    private string _htmlContent = string.Empty;
+
+    protected override async Task OnInitializedAsync()
+    {
+        if (string.IsNullOrEmpty(FilePath))
+            return;
+
+        try
+        {
+            var httpClient = HttpClientFactory.CreateClient("WfhTracker.StaticAssets");
+            // Ensure path starts with /
+            var path = FilePath.StartsWith("/") ? FilePath : $"/{FilePath}";
+            var markdownContent = await httpClient.GetStringAsync(path);
+            _htmlContent = Markdown.ToHtml(markdownContent);
+        }
+        catch (Exception ex)
+        {
+            _htmlContent = $"<p class='text-red-500'>Error loading content: {ex.Message}</p>";
+        }
+    }
+}

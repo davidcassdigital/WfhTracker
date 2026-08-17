@@ -49,7 +49,10 @@ builder.Services.AddScoped(sp =>
 
 builder.Services.AddScoped<IHttpService, HttpService>();
 
-builder.Services.AddScoped<HealthService>();
-builder.Services.AddScoped<EntryService>();
+// Add HttpClient for static assets (no authentication)
+builder.Services.AddHttpClient("WfhTracker.StaticAssets", client =>
+{
+    client.BaseAddress = new Uri(builder.HostEnvironment.BaseAddress);
+});
 
 await builder.Build().RunAsync();
