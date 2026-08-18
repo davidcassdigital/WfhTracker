@@ -43,6 +43,8 @@ builder.Services.AddHttpClient("WfhTracker.Api", client =>
     return handler;
 });
 
+builder.Services.AddScoped<EntryService>();
+
 builder.Services.AddScoped(sp =>
     sp.GetRequiredService<IHttpClientFactory>()
         .CreateClient("WfhTracker.Api"));

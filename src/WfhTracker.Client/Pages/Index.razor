@@ -1,0 +1,36 @@
+﻿@page "/"
+
+@inject NavigationManager Navigation
+
+<AuthorizeView>
+    <Authorized>
+        <LoadingSpinner />
+    </Authorized>
+
+    <NotAuthorized>
+        <LoadingSpinner />
+    </NotAuthorized>
+</AuthorizeView>
+
+@code {
+    [CascadingParameter]
+    private Task<AuthenticationState>? AuthenticationStateTask { get; set; }
+
+    protected override async Task OnInitializedAsync()
+    {
+        if (AuthenticationStateTask is null)
+            return;
+
+        var authState = await AuthenticationStateTask;
+        var user = authState.User;
+
+        if (user.Identity?.IsAuthenticated == true)
+        {
+            Navigation.NavigateTo("/home", true);
+        }
+        else
+        {
+            Navigation.NavigateTo("/welcome", true);
+        }
+    }
+}
